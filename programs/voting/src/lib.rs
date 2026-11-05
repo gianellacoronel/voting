@@ -34,7 +34,27 @@ pub mod voting {
         Ok(())
     }
 
+}
 
+#[derive(Accounts)]
+#[instruction(poll_id: u64, candidate: String)]
+pub struct Vote <'info> {
+    #[account(mut)]
+    pub signer: Signer<'info>,
+
+    #[account(
+        mut,
+        seeds = [b"poll".as_ref(), poll_id.to_le_bytes().as_ref()],
+        bump
+    )]
+    pub poll_account: Account<'info, PollAccount>,
+
+    #[account(
+        mut,
+        seeds = [poll_id.to_le_bytes().as_ref(), candidate.as_ref()],
+        bump
+    )]
+    pub candidate_account: Account<'info, CandidateAccount>
 }
 
 #[derive(Accounts)]
@@ -78,8 +98,6 @@ pub struct InitializeCandidate <'info>{
     pub candidate_account: Account<'info, CandidateAccount>,
     pub system_program: Program<'info, System>
 }
-
-
 
 #[account]
 #[derive(InitSpace)]
