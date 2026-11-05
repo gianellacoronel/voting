@@ -14,7 +14,7 @@ pub mod voting {
         start: u64,
         end: u64
     ) -> Result<()> {
-        let mut poll = ctx.accounts.poll_account;
+        let poll = &mut ctx.accounts.poll_account;
         poll.poll_name = name;
         poll.poll_description = description;
         poll.poll_voting_start = start;
@@ -22,8 +22,6 @@ pub mod voting {
 
         Ok(())
     }
-
-
 
 }
 
