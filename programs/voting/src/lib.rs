@@ -6,6 +6,40 @@ declare_id!("J69R1WJjHAdW3Dv6ionquKsXLdzmzEbeuNSLmWn5VhYz");
 pub mod voting {
     use super::*;
 
+    pub fn init_poll(
+        ctx: Context<InitPoll>,
+        _poll_id: u64,
+        name: String,
+        description: String,
+        start: u64,
+        end: u64
+    ) -> Result<()> {
+        let mut poll = ctx.accounts.poll_account;
+        poll.poll_name = name;
+        poll.poll_description = description;
+        poll.poll_voting_start = start;
+        poll.poll_voting_end = end;
+
+        Ok(())
+    }
+}
+
+#[derive(Accounts)]
+#[instruction(poll_id: u64)]
+pub struct InitPoll {
+    #[account(mut)]
+    pub signer: Signer<'info>,
+    #[account(
+        init,
+        payer = signer,
+        space = 8 + PollAccount::INIT_SPACE,
+        seeds = [b"poll".as_ref(), poll_id.to_le_bytes().as_ref()],
+        bump
+    )]
+    pub poll_account: Account<'info, PollAccount>,
+
+    pub system_program: Program<'info, System>,
+}
 
 #[account]
 #[derive(InitSpace)]
