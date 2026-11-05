@@ -26,7 +26,7 @@ pub mod voting {
 
 #[derive(Accounts)]
 #[instruction(poll_id: u64)]
-pub struct InitPoll {
+pub struct InitPoll <'info>{
     #[account(mut)]
     pub signer: Signer<'info>,
     #[account(
