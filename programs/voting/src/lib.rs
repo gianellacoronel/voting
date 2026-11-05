@@ -44,7 +44,7 @@ pub mod voting {
         let current_time = Clock::get()?.unix_timestamp;
 
         if current_time > (ctx.accounts.poll_account.poll_voting_end as i64) {
-            return Err(e);
+            return Err(ErrorCode::VotingEnded.into());
         }
 
         Ok(())
