@@ -135,3 +135,11 @@ pub struct CandidateAccount {
     pub candidate_name: String,
     pub candidate_votes: u64,
 }
+
+#[error_code]
+pub enum ErrorCode {
+    #[msg("Voting has not started yet.")]
+    VotingNotStarted,
+    #[msg("Voting has ended.")]
+    VotingEnded,
+}
