@@ -47,6 +47,11 @@ pub mod voting {
             return Err(ErrorCode::VotingEnded.into());
         }
 
+        if current_time < (ctx.accounts.poll_account.poll_voting_start as i64) {
+            return Err(ErrorCode::VotingNotStarted.into());
+        }
+
+        candidate.candidate_votes += 1;
         Ok(())
     }
 
