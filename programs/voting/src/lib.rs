@@ -36,8 +36,8 @@ pub mod voting {
 
     pub fn vote (
         ctx: Context<Vote>,
-        poll_id: u64,
-        candidate: String
+        _poll_id: u64,
+        _candidate: String
     ) -> Result<()>{
         let candidate = &mut ctx.accounts.candidate_account;
 
